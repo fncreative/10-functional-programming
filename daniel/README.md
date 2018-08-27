@@ -16,6 +16,17 @@ Html, Css, Javascript, handlebars, Jquery, Express, Postgresql
 
 ## Change Log
 
+commit e5bda2976f4094d24e92392f27a3a4144911fd86 (HEAD -> daniel)
+Author: Daniel Frey <dann.frey@me.com>
+Date:   Mon Aug 27 11:42:49 2018 -0700 - added readme / license
+
+commit d77f2604913e4868bcc4bab4767920a04a27ec57 (origin/daniel)
+Author: Daniel Frey <dann.frey@me.com>
+Date:   Mon Aug 27 07:11:48 2018 -0700  - fixed error on conString - all working
+
+commit c02e4cb2fdbe2810c7e76f9d318318213a7b5b9f
+Author: Daniel Frey <dann.frey@me.com>
+Date:   Mon Aug 27 06:35:54 2018 -0700 - functions created
 
 ## Credits and Collaborations
 
