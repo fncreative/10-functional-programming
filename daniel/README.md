@@ -1,4 +1,4 @@
-# 07-nodejs-npm-express
+# 10-functional-programming
 
 **Author**: Daniel
 **Version**: 1.0.0 (increment the patch/fix version number up if you make more commits past your first submission)
@@ -8,7 +8,7 @@ We are creating a local server that runs off our a machine and allows access by 
 
 ## Getting Started
  
- Clone https://github.com/fncreative/07-nodejs-npm-express. Install dependencies. Run through the terminal. 
+ Clone . https://github.com/fncreative/10-functional-programming Install dependencies. Run through the terminal. 
 
 ## Architecture
 
