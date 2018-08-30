@@ -5,9 +5,9 @@ var articleView = {};
 
 (function articleViewIFFE(module) {
 
-  module.articleView = {};
+  articleView = {};
 
-  module.articleView.populateFilters = () => {
+  articleView.populateFilters = () => {
     $('article').each(function() {
       if (!$(this).hasClass('template')) {
         var val = $(this).find('address a').text();
@@ -25,7 +25,7 @@ var articleView = {};
     });
   };
 
-  module.articleView.handleAuthorFilter = () => {
+  articleView.handleAuthorFilter = () => {
     $('#author-filter').on('change', function() {
       if ($(this).val()) {
         $('article').hide();
@@ -38,7 +38,7 @@ var articleView = {};
     });
   };
 
-  module.articleView.handleCategoryFilter = () => {
+  articleView.handleCategoryFilter = () => {
     $('#category-filter').on('change', function() {
       if ($(this).val()) {
         $('article').hide();
@@ -51,7 +51,7 @@ var articleView = {};
     });
   };
 
-  module.articleView.handleMainNav = () => {
+  articleView.handleMainNav = () => {
     $('nav').on('click', '.tab', function(e) {
       e.preventDefault();
       $('.tab-content').hide();
@@ -61,7 +61,7 @@ var articleView = {};
     $('nav .tab:first').click();
   };
 
-  module.articleView.setTeasers = () => {
+  articleView.setTeasers = () => {
     $('.article-body *:nth-of-type(n+2)').hide();
     $('article').on('click', 'a.read-on', function(e) {
       e.preventDefault();
@@ -78,7 +78,7 @@ var articleView = {};
     });
   };
 
-  module.articleView.initNewArticlePage = () => {
+  articleView.initNewArticlePage = () => {
     $('.tab-content').show();
     $('#export-field').hide();
     $('#article-json').on('focus', function(){
@@ -89,7 +89,7 @@ var articleView = {};
     $('#new-form').on('submit', articleView.submit);
   };
 
-  module.articleView.create = () => {
+  articleView.create = () => {
     var article;
     $('#articles').empty();
 
@@ -106,7 +106,7 @@ var articleView = {};
     $('pre code').each((i, block) => hljs.highlightBlock(block));
   };
 
-  module.articleView.submit = event => {
+  articleView.submit = event => {
     event.preventDefault();
     let article = new Article({
       title: $('#article-title').val(),
@@ -123,7 +123,7 @@ var articleView = {};
     window.location = '../';
   }
 
-  module.articleView.initIndexPage = () => {
+  articleView.initIndexPage = () => {
     app.Article.all.forEach(a => $('#articles').append(a.toHtml()));
 
     articleView.populateFilters();
@@ -134,7 +134,7 @@ var articleView = {};
     $('pre code').each((i, block) => hljs.highlightBlock(block));
   };
 
-  module.articleView.initAdminPage = () => {
+  articleView.initAdminPage = () => {
     var template = Handlebars.compile($('#author-template').text());
 
     // REVIEW: We use .forEach() here because we are relying on the side-effects of the callback function: appending to the DOM. The callback is not required to return anything.
@@ -145,5 +145,5 @@ var articleView = {};
     $('#blog-stats .articles').text(app.Article.all.length);
     $('#blog-stats .words').text(app.Article.numWordsAll());
   };
-
+  module.articleView = articleView;
 })(app)

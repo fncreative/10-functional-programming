@@ -3,14 +3,14 @@ var app = app || {};
 
 (function articleIFFE(module) {
 
-  module.Article = function(rawDataObj) {
+  function Article(rawDataObj) {
   // REVIEW: In Lab 8, we explored a lot of new functionality going on here. Let's re-examine the concept of context. Normally, "this" inside of a constructor function refers to the newly instantiated object. However, in the function we're passing to forEach, "this" would normally refer to "undefined" in strict mode. As a result, we had to pass a second argument to forEach to make sure our "this" was still referring to our instantiated object. One of the primary purposes of lexical arrow functions, besides cleaning up syntax to use fewer lines of code, is to also preserve context. That means that when you declare a function using lexical arrows, "this" inside the function will still be the same "this" as it was outside the function. As a result, we no longer have to pass in the optional "this" argument to forEach!
     Object.keys(rawDataObj).forEach(key => this[key] = rawDataObj[key]);
   }
 
-  module.Article.all = [];
+  Article.all = [];
 
-  module.Article.prototype.toHtml = function() {
+  Article.prototype.toHtml = function() {
     var template = Handlebars.compile($('#article-template').text());
 
     this.daysAgo = parseInt((new Date() - new Date(this.published_on))/60/60/24/1000);
@@ -20,30 +20,30 @@ var app = app || {};
     return template(this);
   };
 
-  module.Article.loadAll = articleData => {
+  Article.loadAll = articleData => {
     articleData.sort((a,b) => (new Date(b.published_on)) - (new Date(a.published_on)))
 
     /* OLD forEach():
   articleData.forEach(articleObject => Article.all.push(new Article(articleObject)));
   */
-    app.Article.all = articleData.map(articleObject => new module.Article(articleObject));
+    app.Article.all = articleData.map(articleObject => new Article(articleObject));
   };
 
-  module.Article.fetchAll = callback => {
+  Article.fetchAll = callback => {
     $.get('/articles')
       .then(results => {
-        module.Article.loadAll(results);
+        Article.loadAll(results);
         callback();
       })
   };
 
-  module.Article.numWordsAll = () => {
+  Article.numWordsAll = () => {
     return app.Article.all.map(x => x.body.split(' ').length).reduce((acc, cur) => {
       return acc + cur;
     } ,0 )
   };
 
-  module.Article.allAuthors = () => {
+  Article.allAuthors = () => {
     return app.Article.all.map(article => article.author).sort().reduce( (acc, cur) => {
       const length = acc.length;
       if (length === 0 || acc[length - 1] !== cur) {
@@ -53,7 +53,7 @@ var app = app || {};
     }, []);
   };
 
-  module.Article.numWordsByAuthor = () => {
+  Article.numWordsByAuthor = () => {
     return app.Article.allAuthors().map(author => {
       var object = {};
       object.author = author;
@@ -62,7 +62,7 @@ var app = app || {};
     });
   };
 
-  module.Article.truncateTable = callback => {
+  Article.truncateTable = callback => {
     $.ajax({
       url: '/articles',
       method: 'DELETE',
@@ -72,14 +72,14 @@ var app = app || {};
       .then(callback);
   };
 
-  module.Article.prototype.insertRecord = function(callback) {
+  Article.prototype.insertRecord = function(callback) {
   // REVIEW: Why can't we use an arrow function here for .insertRecord()?
     $.post('/articles', {author: this.author, author_url: this.author_url, body: this.body, category: this.category, published_on: this.published_on, title: this.title})
       .then(console.log)
       .then(callback);
   };
 
-  module.Article.prototype.deleteRecord = function(callback) {
+  Article.prototype.deleteRecord = function(callback) {
     $.ajax({
       url: `/articles/${this.article_id}`,
       method: 'DELETE'
@@ -88,7 +88,7 @@ var app = app || {};
       .then(callback);
   };
 
-  module.Article.prototype.updateRecord = function(callback) {
+  Article.prototype.updateRecord = function(callback) {
     $.ajax({
       url: `/articles/${this.article_id}`,
       method: 'PUT',
@@ -105,5 +105,5 @@ var app = app || {};
       .then(console.log)
       .then(callback);
   };
-
+  module.Article = Article;
 })(app)
